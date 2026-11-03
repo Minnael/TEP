@@ -1,9 +1,7 @@
 import pandas as pd
-import pyreadr
 
 def encontrar_metricas():
-    calibrador_limiares = pyreadr.read_r('TEP/01_Calibrador_de_Limiares.RData')
-    df = list(calibrador_limiares.values())[0]
+    df = pd.read_parquet('TEP/01_TEP_FaultFree_Training.parquet')
 
     df = df.iloc[:, 3:]
     medias = df.mean(numeric_only=True)
