@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "pandas>=3.1.0",
+    "prefixspan>=0.5.2",
     "pyreadr>=0.5.9",
 ]
