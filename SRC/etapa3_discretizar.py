@@ -1,8 +1,9 @@
+import os
 import json
 import pandas as pd
-from obterMetricas import encontrar_metricas
+from etapa2_obterMetricas import encontrar_metricas
 
-def discretizador(janela):
+def discretizador(janela, max_eventos=None):
     metricas = encontrar_metricas()
     
     df = pd.read_parquet('TEP/02_TEP_Faulty_Training.parquet')
@@ -23,6 +24,9 @@ def discretizador(janela):
     df_alertas.columns = ['faultNumber', 'simulationRun', 'sample', 'sensor', 'evento']
     df_unicos = df_alertas.drop_duplicates(subset=['faultNumber', 'simulationRun', 'evento'], keep='first')
 
+    if max_eventos:
+        df_unicos = df_unicos.groupby(['faultNumber', 'simulationRun']).head(max_eventos)
+
     banco_completo = {}
     for falha, df_da_falha in df_unicos.groupby('faultNumber'):
         transacoes = df_da_falha.groupby('simulationRun')['evento'].apply(list).tolist()
@@ -32,9 +36,10 @@ def discretizador(janela):
 
 
 
-banco_json = discretizador(janela=60)
+banco_json = discretizador(janela=60, max_eventos=8)
 
-with open('banco_transacoes_tep.json', 'w') as arquivo:
+os.makedirs('JSON', exist_ok=True)
+with open('JSON/banco_transacoes_tep.json', 'w') as arquivo:
     arquivo.write("{\n")
     total_itens = len(banco_json)
     

@@ -17,7 +17,7 @@ def encontrar_metricas():
         -Limite Superior = média(μ) + 3 * desvio(σ)
         -Qualquer valor entre lim_inf e lim_sup é comportamento normal.
     '''
-    tabela_limites['limite_sup'] = tabela_limites['media'] + (3 * tabela_limites['desvio'])
-    tabela_limites['limite_inf'] = tabela_limites['media'] - (3 * tabela_limites['desvio'])
+    tabela_limites['limite_sup'] = tabela_limites['media'] + (4 * tabela_limites['desvio'])
+    tabela_limites['limite_inf'] = tabela_limites['media'] - (4 * tabela_limites['desvio'])
 
     return tabela_limites
